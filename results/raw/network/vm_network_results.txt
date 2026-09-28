@@ -1,0 +1,10 @@
+VM Network Benchmark Results
+============================
+
+Tool: iperf3
+Server: 127.0.0.1
+Duration: 30 seconds
+Protocol: TCP
+
+Sender: 38.4 Gbits/sec
+Receiver: 38.3 Gbits/sec

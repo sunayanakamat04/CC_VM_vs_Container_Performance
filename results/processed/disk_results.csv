@@ -1,0 +1,5 @@
+environment,operation,bandwidth_kib_per_sec
+VM,READ,8709
+VM,WRITE,8663
+Container,READ,9519
+Container,WRITE,9454

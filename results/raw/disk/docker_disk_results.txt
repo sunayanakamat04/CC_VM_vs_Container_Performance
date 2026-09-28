@@ -1,0 +1,15 @@
+Docker Disk Benchmark Results
+=============================
+
+Tool: FIO
+Test duration: 30 seconds
+Block size: 4K
+I/O mode: readwrite
+Direct I/O: enabled
+File size: 1G
+
+READ:
+Bandwidth: 9519 KiB/s
+
+WRITE:
+Bandwidth: 9454 KiB/s

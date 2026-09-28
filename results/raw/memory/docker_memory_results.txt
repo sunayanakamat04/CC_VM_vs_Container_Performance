@@ -1,0 +1,11 @@
+Docker Memory Benchmark Results
+===============================
+
+Test parameters:
+Block size = 1K
+Total size = 10G
+Operation = write
+Threads = 1
+
+Memory speed: 4641.70 MiB/sec
+Total time: 2.2043 seconds

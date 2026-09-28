@@ -1,0 +1,27 @@
+nano results/raw/cpu/vm_cpu_results.txt
+VM CPU Benchmark Results
+========================
+
+Test parameters:
+CPU max prime = 20000
+Test duration = 30 seconds
+
+VM - Run 1
+Threads: 1
+Events per second: 743.36
+
+VM - Run 2
+Threads: 1
+Events per second: 847.21
+
+VM - Run 3
+Threads: 2
+Events per second: 1670.49
+
+VM - Run 4
+Threads: 4
+Events per second: 3364.15
+
+VM - Run 5
+Threads: 8
+Events per second: 3371.46

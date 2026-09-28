@@ -1,0 +1,11 @@
+VM Memory Benchmark Results
+===========================
+
+Test parameters:
+Block size = 1K
+Total size = 10G
+Operation = write
+Threads = 1
+
+Memory speed: 5102.12 MiB/sec
+Total time: 2.0053 seconds

@@ -1,0 +1,11 @@
+Docker Network Benchmark Results
+================================
+
+Tool: iperf3
+Network mode: host
+Server: 127.0.0.1
+Duration: 30 seconds
+Protocol: TCP
+
+Sender: 38.7 Gbits/sec
+Receiver: 38.7 Gbits/sec

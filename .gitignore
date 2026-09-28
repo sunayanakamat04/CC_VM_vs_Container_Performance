@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Large benchmark/test files
+*.img
+*.iso
+*.qcow2
+*.vdi
+*.vmdk
+
+# Temporary files
+*.tmp
+*.log
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+*~
+
+# Docker
+docker/*.tar

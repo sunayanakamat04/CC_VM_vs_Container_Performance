@@ -1,0 +1,22 @@
+Docker CPU Benchmark Results
+============================
+
+Test parameters:
+CPU max prime = 20000
+Test duration = 30 seconds
+
+Docker - Run 1
+Threads: 1
+Events per second: 781.03
+
+Docker - Run 2
+Threads: 2
+Events per second: 1655.96
+
+Docker - Run 3
+Threads: 4
+Events per second: 3305.75
+
+Docker - Run 4
+Threads: 8
+Events per second: 3362.75
