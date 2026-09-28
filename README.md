@@ -1,129 +1,239 @@
-CC Experiment: VM vs Container Performance Benchmark
+VM vs Container Performance Analysis
+====================================
 
-Project Overview
+Comparative performance evaluation of a Virtual Machine and a Docker Container using CPU, Memory, Disk I/O, and Network workloads.
 
-This project is a Cloud Computing experiment that compares the performance of a Virtual Machine and a Docker container using CPU, memory, disk I/O, and network benchmarks.
+1. Project Overview
+-------------------
 
-The objective is to understand the performance overhead and differences between traditional virtualization and containerization.
+This project performs a practical performance comparison between a Virtual Machine and a Docker Container.
 
-The experiments were performed on Ubuntu 22.04.5 LTS running inside VMware Workstation.
+The experiment was designed to observe how virtualization and containerization behave under different system workloads.
 
-Environment Details
+Four major performance areas were tested:
 
-Host/VM Operating System: Ubuntu 22.04.5 LTS
-Kernel: Linux 6.8.0-138-generic
-Architecture: x86_64
-CPU: 12th Gen Intel Core i5-12500H
-Allocated CPU Cores: 4
-Allocated Memory: 7.7 GiB
-Storage: 60 GB virtual disk
-Hypervisor: VMware Workstation
-Container Runtime: Docker 29.1.3
+| Performance Area | Benchmark Tool | Measurement |
+|------------------|----------------|-------------|
+| CPU Performance | Sysbench | Events per second |
+| Memory Performance | Sysbench | MiB/sec |
+| Disk Performance | FIO | KiB/sec |
+| Network Performance | iPerf3 | Gbits/sec |
 
-Benchmark Tools
+The benchmark results were collected separately for the VM and Docker Container, stored as raw output files, converted into structured CSV files, and visualized using Python.
 
-Sysbench 1.0.20
-FIO 3.28
-iperf3 3.9
-Python 3.10.12
-Git 2.34.1
-Docker 29.1.3
+2. Aim
+-------
 
-Experiment Structure
+To experimentally compare the performance characteristics of Virtual Machines and Docker Containers using standardized CPU, memory, disk, and network workloads.
 
-vm-vs-container-performance/
+3. Objectives
+-------------
 
-    analysis/
-    api/
-    docker/
-    docs/
-    results/
-        figures/
-        processed/
-        raw/
-    scripts/
-    vm/
-    workloads/
-        cpu/
-        memory/
-        disk/
-        network/
-    .gitignore
-    README.md
+| No. | Objective |
+|-----|-----------|
+| 1 | Configure a Virtual Machine environment for benchmarking |
+| 2 | Configure a Docker Container environment |
+| 3 | Perform CPU benchmarking |
+| 4 | Perform memory benchmarking |
+| 5 | Perform disk I/O benchmarking |
+| 6 | Perform network benchmarking |
+| 7 | Store the raw benchmark outputs |
+| 8 | Process benchmark results into CSV files |
+| 9 | Generate graphical comparisons |
+| 10 | Analyze the measured performance of VM and Container |
 
-Experiments Performed
+4. Experimental Setup
+---------------------
 
-CPU Benchmark
+The experiments were performed inside an Ubuntu virtual machine using VMware. Docker was configured inside the same environment for container-based benchmarking.
 
-CPU performance was measured using Sysbench with a prime-number calculation workload.
+| System Component | Configuration |
+|------------------|---------------|
+| Operating System | Ubuntu 22.04.5 LTS |
+| Architecture | amd64 |
+| CPU Cores | 4 |
+| Python Version | 3.10.12 |
+| Hypervisor | VMware |
+| Container Platform | Docker |
+| CPU Benchmark | Sysbench |
+| Memory Benchmark | Sysbench |
+| Disk Benchmark | FIO |
+| Network Benchmark | iPerf3 |
+| Data Processing | Python / Pandas |
+| Graph Generation | Matplotlib |
 
-Test parameters:
+5. Experimental Methodology
+----------------------------
 
-CPU max prime: 20000
-Test duration: 30 seconds
-Threads: 1, 2, 4 and 8
+The following procedure was followed during the experiment.
 
-Memory Benchmark
+| Step | Work Performed |
+|------|----------------|
+| 1 | Collected system and environment information |
+| 2 | Prepared the VM environment |
+| 3 | Prepared the Docker environment |
+| 4 | Created the required benchmark workload |
+| 5 | Executed CPU tests |
+| 6 | Executed memory tests |
+| 7 | Executed disk read/write tests |
+| 8 | Executed network throughput tests |
+| 9 | Stored raw benchmark outputs |
+| 10 | Converted the results into CSV format |
+| 11 | Generated performance graphs |
+| 12 | Compared VM and Container results |
 
-Memory performance was measured using Sysbench.
+6. CPU Benchmark
+----------------
 
-Test parameters:
+CPU performance was tested using Sysbench.
 
-Block size: 1 KiB
-Total size: 10 GiB
-Operation: Write
-Threads: 1
 
-Disk Benchmark
+At 8 threads, the VM produced 3371.46 events/sec and the Container produced 3362.75 events/sec.
 
-Disk performance was measured using FIO using read and write workloads.
+The measurements become very close at higher thread counts.
+![CPU Performance](results/figures/cpu_performance.png)
 
-Test duration: 30 seconds
+7. Memory Benchmark
+-------------------
 
-Network Benchmark
+Memory performance was tested using Sysbench.
+Test configuration:
 
-Network performance was measured using iperf3.
+|-----------|-------|
+| Block size | 1 KiB |
+| Total size | 10 GiB |
+| Operation | Write |
+| Threads | 1 |
+| Measurement | MiB/sec |
 
-Test duration: 30 seconds
-Protocol: TCP
+Memory Comparison
 
-Performance Comparison
+| Environment | Memory Throughput |
+|-------------|------------------:|
+| VM | 5102.12 MiB/sec |
+| Container | 4641.70 MiB/sec |
 
-CPU Performance
+Memory Interpretation
 
-| Threads | VM Events/sec | Container Events/sec |
-|--------:|--------------:|---------------------:|
-| 1       | 743.36 / 847.21 | 781.03 |
-| 2       | 1670.49 | 1655.96 |
-| 4       | 3364.15 | 3305.75 |
-| 8       | 3371.46 | 3362.75 |
+The VM produced a measured memory throughput of 5102.12 MiB/sec.
 
-Memory Performance
+The Container produced a measured memory throughput of 4641.70 MiB/sec.
 
-| Environment | Memory Speed (MiB/sec) |
-|-------------|------------------------:|
-| VM          | 5102.12 |
-| Container   | 4641.70 |
+These values represent the measurements obtained from the configured experimental environment.
 
-Disk Performance
+Memory Performance Graph
 
-| Environment | Operation | Bandwidth (KiB/sec) |
-|-------------|-----------|--------------------:|
-| VM          | READ      | 8709 |
-| VM          | WRITE     | 8663 |
-| Container   | READ      | 9519 |
-| Container   | WRITE     | 9454 |
+![Memory Performance](results/figures/memory_performance.png)
 
-Network Performance
+8. Disk I/O Benchmark
+---------------------
 
-The network benchmark was performed using iperf3 for 30 seconds. The container test used host networking so that the container could be compared with the VM without introducing Docker bridge-network overhead.
+Disk performance was tested using FIO.
 
-The detailed raw and processed network results are available under:
+Both read and write workloads were measured for 30 seconds.
 
-results/raw/network/
-results/processed/network_results.csv
+Disk Comparison
 
-Performance Graphs
+| Operation | VM | Container |
+|-----------|---:|----------:|
+| Read | 8709 KiB/sec | 9519 KiB/sec |
+| Write | 8663 KiB/sec | 9454 KiB/sec |
+
+Disk Interpretation
+
+For the read workload, the measured VM bandwidth was 8709 KiB/sec and the Container bandwidth was 9519 KiB/sec.
+
+For the write workload, the measured VM bandwidth was 8663 KiB/sec and the Container bandwidth was 9454 KiB/sec.
+
+Disk Performance Graph
+
+![Disk Performance](results/figures/disk_performance.png)
+
+9. Network Benchmark
+--------------------
+
+Network performance was tested using iPerf3.
+
+Test configuration:
+
+| Parameter | Value |
+|-----------|-------|
+| Protocol | TCP |
+| Test duration | 30 seconds |
+| Test type | Local network throughput |
+| Measurement | Gbits/sec |
+
+Network Comparison
+
+| Environment | Throughput |
+|-------------|-----------:|
+| VM | 38.7 Gbits/sec |
+| Container | 38.7 Gbits/sec |
+
+Network Interpretation
+
+The VM and Container produced approximately the same measured network throughput of 38.7 Gbits/sec in the local iPerf3 test.
+
+Network Performance Graph
+
+
+
+|-----------|--------|----:|----------:|
+| CPU - 4 Threads | Events/sec | 3364.15 | 3305.75 |
+| CPU - 8 Threads | Events/sec | 3371.46 | 3362.75 |
+| Memory | MiB/sec | 5102.12 | 4641.70 |
+| Disk Read | KiB/sec | 8709 | 9519 |
+| Disk Write | KiB/sec | 8663 | 9454 |
+11. Benchmark-wise Comparison
+| Network | 38.7 Gbits/sec | 38.7 Gbits/sec | Approximately equal measured throughput |
+
+12. Result Processing
+---------------------
+
+The benchmark outputs were organized into three stages.
+
+Raw Results
+
+
+    results/raw/
+Processed Results
+
+The required values were extracted and stored as CSV files under:
+
+    results/processed/
+
+Figures
+
+The processed data was used to generate comparison graphs stored under:
+
+    results/figures/
+
+13. Result Files
+----------------
+
+| Benchmark | Raw VM Result | Raw Container Result | Processed Result |
+|-----------|---------------|----------------------|------------------|
+| CPU | vm_cpu_results.txt | docker_cpu_results.txt | cpu_results.csv |
+| Memory | vm_memory_results.txt | docker_memory_results.txt | memory_results.csv |
+| Disk | vm_disk_results.txt | docker_disk_results.txt | disk_results.csv |
+| Network | vm_network_results.txt | docker_network_results.txt | network_results.csv |
+
+14. Analysis Scripts
+--------------------
+
+Python scripts were created to process the benchmark data and generate the corresponding graphs.
+
+| Script | Purpose |
+|--------|---------|
+| analyze_cpu.py | Processes CPU results and generates CPU graph |
+| analyze_memory.py | Processes memory results and generates memory graph |
+| analyze_disk.py | Processes disk results and generates disk graph |
+| analyze_network.py | Processes network results and generates network graph |
+
+15. Generated Graphs
+--------------------
+
+The project contains four performance graphs.
 
 CPU Performance
 
@@ -141,94 +251,164 @@ Network Performance
 
 ![Network Performance](results/figures/network_performance.png)
 
-Results Summary
+16. Project Structure
+---------------------
 
-The experiments demonstrate that VM and container performance can differ depending on the workload.
+    CC_VM_vs_Container_Performance/
+    |
+    |-- README.md
+    |-- .gitignore
+    |
+    |-- docker/
+    |   |-- Dockerfile
+    |
+    |-- docs/
+    |   |-- cpu-info.txt
+    |   |-- docker-info.txt
+    |   |-- kernel-info.txt
+    |   |-- memory-info.txt
+    |   |-- storage-info.txt
+    |
+    |-- results/
+    |   |
+    |   |-- figures/
+    |   |   |-- cpu_performance.png
+    |   |   |-- memory_performance.png
+    |   |   |-- disk_performance.png
+    |   |   |-- network_performance.png
+    |   |
+    |   |-- processed/
+    |   |   |-- cpu_results.csv
+    |   |   |-- memory_results.csv
+    |   |   |-- disk_results.csv
+    |   |   |-- network_results.csv
+    |   |
+    |   |-- raw/
+    |       |-- cpu/
+    |       |   |-- docker_cpu_results.txt
+    |       |   |-- vm_cpu_results.txt
+    |       |
+    |       |-- memory/
+    |       |   |-- docker_memory_results.txt
+    |       |   |-- vm_memory_results.txt
+    |       |
+    |       |-- disk/
+    |       |   |-- docker_disk_results.txt
+    |       |   |-- vm_disk_results.txt
+    |       |
+    |       |-- network/
+    |           |-- docker_network_results.txt
+    |           |-- vm_network_results.txt
+    |
+    |-- scripts/
+    |   |-- analyze_cpu.py
+    |   |-- analyze_memory.py
+    |   |-- analyze_disk.py
+    |   |-- analyze_network.py
+    |
+    |-- vm/
+    |-- api/
+    |
+    |-- workloads/
+        |-- cpu/
+        |-- memory/
+        |-- disk/
+        |-- network/
 
-CPU performance was broadly similar between the VM and container, with both environments scaling from 1 to 4 threads and showing limited additional throughput at 8 threads.
+17. Technologies Used
+---------------------
 
-The VM achieved higher memory throughput in the measured test.
+| Technology | Role in Project |
+|------------|-----------------|
+| Ubuntu Linux | Experimental operating system |
+| VMware | Virtual Machine environment |
+| Docker | Container environment |
+| Sysbench | CPU and memory benchmarking |
+| FIO | Disk I/O benchmarking |
+| iPerf3 | Network benchmarking |
+| Python | Data processing and analysis |
+| Pandas | CSV processing |
+| Matplotlib | Performance visualization |
+| Git | Version control |
+| GitHub | Repository management |
 
-The container achieved higher measured disk read and write bandwidth in the FIO test.
+18. Key Findings
+----------------
 
-Network performance was measured using iperf3, with host networking used for the container experiment.
+| Benchmark | Observation |
+|-----------|-------------|
+| CPU | VM and Container produced closely related results at higher thread counts |
+| Memory | Different throughput values were measured between VM and Container |
+| Disk | Different read and write bandwidth values were measured |
+| Network | Both environments produced approximately 38.7 Gbits/sec |
 
-The complete raw benchmark outputs, processed CSV files, Python analysis scripts, and generated graphs are included in the repository.
+The results demonstrate that the performance difference between a VM and Container depends on the type of workload and the configuration of the underlying environment.
 
-Reproducibility
+19. Conclusion
+--------------
 
-CPU benchmark:
+This project experimentally evaluated Virtual Machine and Docker Container performance using CPU, memory, disk I/O, and network workloads.
 
-sysbench cpu --cpu-max-prime=20000 --threads=1 --time=30 run
+The experiment involved collecting raw benchmark outputs, organizing the results, processing them into CSV files, generating graphical representations, and comparing the measured values.
 
-sysbench cpu --cpu-max-prime=20000 --threads=2 --time=30 run
+The CPU measurements were relatively close between the two environments, especially at higher thread counts. Memory throughput showed different measured values. Disk benchmarking produced different read and write bandwidth measurements, while the network benchmark produced approximately equal throughput for both environments.
 
-sysbench cpu --cpu-max-prime=20000 --threads=4 --time=30 run
+The results are specific to the experimental hardware, operating system, VM configuration, Docker configuration, and benchmark parameters used in this project.
 
-sysbench cpu --cpu-max-prime=20000 --threads=8 --time=30 run
+20. Author
+----------
 
-Memory benchmark:
+By
 
-sysbench memory --memory-block-size=1K --memory-total-size=10G --threads=1 run
+Sunayana Kamat
+The original outputs generated by the benchmark tools were stored under:
+| Disk Write | 8663 KiB/sec | 9454 KiB/sec | Different measured bandwidth |
+| CPU | 743.36 to 3371.46 events/sec | 781.03 to 3362.75 events/sec | Similar measurements at higher thread counts |
+| Disk Read | 8709 KiB/sec | 9519 KiB/sec | Different measured bandwidth |
+| Memory | 5102.12 MiB/sec | 4641.70 MiB/sec | Different measured throughput |
 
-Container benchmark example:
+|------|-----------|------------------|----------------------|
+| Area | VM Result | Container Result | Measured Observation |
+-----------------------------
 
-docker run --rm cc-benchmark:latest sysbench cpu --cpu-max-prime=20000 --threads=4 --time=30 run
+| Network | Gbits/sec | 38.7 | 38.7 |
+| CPU - 2 Threads | Events/sec | 1670.49 | 1655.96 |
+| CPU - 1 Thread | Events/sec | 743.36 | 781.03 |
+| Benchmark | Metric | VM | Container |
+The following table combines the main measurements obtained from all experiments.
+![Network Performance](results/figures/network_performance.png)
 
-Network benchmark:
+10. Overall Comparison
+----------------------
+| Parameter | Value |
 
-iperf3 -s
 
-iperf3 -c 127.0.0.1 -t 30
+CPU Performance Graph
 
-Docker network benchmark:
+At 4 threads, the VM produced 3364.15 events/sec and the Container produced 3305.75 events/sec.
+At 2 threads, the VM produced 1670.49 events/sec and the Container produced 1655.96 events/sec.
+At 1 thread, the VM produced 743.36 events/sec and the Container produced 781.03 events/sec.
 
-docker run --rm --network host cc-benchmark:latest iperf3 -c 127.0.0.1 -t 30
+The CPU results were collected for increasing numbers of threads.
 
-Analysis Scripts
+| Parameter | Value |
 
-CPU:
 
-scripts/analyze_cpu.py
+CPU Interpretation
+| 4 | 3364.15 | 3305.75 |
+| 8 | 3371.46 | 3362.75 |
+|-----------|-------|
+| 2 | 1670.49 | 1655.96 |
+| Prime limit | 20000 |
+| 1 | 743.36 | 781.03 |
+| Threads | VM | Container |
+|---------|----:|----------:|
 
-Memory:
+| Test duration | 30 seconds |
+CPU Comparison
+| Threads | 1, 2, 4, 8 |
 
-scripts/analyze_memory.py
+| Measurement | Events per second |
 
-Disk:
+Test configuration:
 
-scripts/analyze_disk.py
-
-Network:
-
-scripts/analyze_network.py
-
-Generated Results
-
-Raw benchmark outputs are stored in:
-
-results/raw/
-
-Processed benchmark data is stored in:
-
-results/processed/
-
-Performance graphs are stored in:
-
-results/figures/
-
-Documentation
-
-System information and environment details are available in:
-
-docs/cpu-info.txt
-docs/memory-info.txt
-docs/storage-info.txt
-docs/kernel-info.txt
-docs/docker-info.txt
-
-Conclusion
-
-This experiment provides a practical comparison between virtual machines and containers across CPU, memory, disk, and network workloads.
-
-The collected benchmark data can be used to study how virtualization and containerization affect resource utilization and application performance.
